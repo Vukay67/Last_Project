@@ -1,0 +1,112 @@
+{% extends './base.html' %}
+{% block content %}
+
+    <main class="main">
+        <div class="profile">
+
+            <!-- Аватар + инфо -->
+            <div class="profile-hero">
+<<<<<<< HEAD
+                <div class="profile-avatar-wrap">
+                    {% if request.user.avatar %}
+                        <img src="{{ request.user.avatar.url }}" alt="{{ request.user.username }}" class="profile-avatar-img"/>
+                    {% else %}
+                        <div class="profile-avatar">🌸</div>
+                    {% endif %}
+=======
+                {% if request.user.image %}
+                <img src="{{ request.user.image.url }}" alt="{{ request.user.username }}">
+                {% else %}
+                <div class="profile-avatar-wrap">
+                    <div class="profile-avatar">🌸</div>
+>>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
+                </div>
+                <div class="profile-info">
+                    <h1 class="profile-name">{{ request.user.username }}</h1>
+                    <p class="profile-tag">{{ request.user.email }}</p>
+<<<<<<< HEAD
+                    <p class="profile-bio">{{ request.user.description }}</p>
+                    <div class="profile-actions">
+                        <a href="{% url 'redact_page' %}" class="btn-primary">Редактировать</a>
+                        <a href="{% url 'logout' %}" class="btn-primary">Выйти</a>
+                    </div>
+                </div>
+=======
+                    <p class="profile-bio">Обожаю сёнэн и романтику. Топ — Demon Slayer и Your Name 🌙</p>
+                    <div class="profile-actions">
+                        <a href="{% url 'redact_page' %}" class="btn-primary">Редактировать</a>
+                        <button class="btn-secondary">Поделиться</button>
+                    </div>
+                </div>
+                {% endif %}
+>>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
+            </div>
+
+            <!-- Вкладки списков -->
+            <div class="watchlist">
+                <div class="watchlist-tabs">
+                    <button class="watchlist-tab" onclick="switchTab(this, 'watched')">✅ Просмотрено</button>
+                    <button class="watchlist-tab active" onclick="switchTab(this, 'plan')">📋 Буду смотреть</button>
+                </div>
+
+                <!-- Буду смотреть -->
+                <div class="watchlist-panel active" id="tab-plan">
+                    {% for p in planned %}
+                    <a href="{% url 'anime_detail_page' p.anime.slug %}" class="anime-card">
+                        <div class="anime-thumb"><img src="{{ p.anime.image.url }}" alt="{{ p.anime.name }}" /></div>
+                        <div class="anime-card-info">
+                            <span class="anime-title">{{ p.anime.name }}</span>
+                            <span class="anime-genre">
+                            {% for genre in p.anime.genres.all %}
+                                {{ genre.name }}{% if not forloop.last %} · {% endif %}
+                            {% empty %}
+                                Без жанра
+                            {% endfor %}
+                            </span>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <!-- Просмотрено -->
+                <div class="watchlist-panel" id="tab-watched">
+                    {% for w in watched %}
+                    <a href="{% url 'anime_detail_page' w.anime.slug %}"  class="anime-card">
+                        <div class="anime-thumb"><img src="{{ w.anime.image.url }}" alt="{{ w.anime.name }}" /></div>
+                        <div class="anime-card-info">
+                            <span class="anime-title">{{ w.anime.name }}</span>
+                            <span class="anime-genre">
+                            {% for genre in w.anime.genres.all %}
+                                {{ genre.name }}{% if not forloop.last %} · {% endif %}
+                            {% empty %}
+                                Без жанра
+                            {% endfor %}
+                            </span>
+                            <span class="anime-rating">
+                                    {% if w.user_rating %}
+                                        ⭐ {{ w.user_rating }}/5
+                                    {% else %}
+                                        Не добавлен рейтинг
+                                    {% endif %}
+                            </span>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+        </div>
+    </main>
+</body>
+</html>
+
+{% block scripts %}
+<script>
+function switchTab(btn, tabId) {
+    document.querySelectorAll('.watchlist-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.watchlist-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + tabId).classList.add('active');
+}
+</script>
+{% endblock %}
+
+{% endblock %}

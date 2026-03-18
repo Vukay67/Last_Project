@@ -1,0 +1,124 @@
+{% extends './base.html' %}
+{% block content %}
+<main class="main">
+    <span style="font-size: 35px;">
+        <a href="{% url 'anime_detail_page' episode.season.anime.slug %}" style="margin-bottom: 16px; font-size: 35px; color: white;">{{ episode.season.anime.name }}</a> 
+        {{ episode.episode_number }} <a style="margin-bottom: 16px; font-size: 35px; color: white;" href="{% url 'anime_detail_page' episode.season.anime.slug %}#wached">серия</a>
+    </span>
+    <div class="episode-grid">
+        <h4 style="margin-top: 30px;">{{ episode.title }}</h4>
+        <div class="container">
+            <div class="player" id="playerWrapper" style="position:relative;">
+                {% if episode.video %}
+                <video id="video" width="100%" height="100%" poster="{{ episode.poster.url }}" controls style="border-radius:10px; margin-bottom:25px; display:block; max-height:440px;">
+                    <source src="{{ episode.video.url }}" type="video/mp4">
+                </video>
+                {% else %}
+                <div style="width:100%; height:500px; background:#1b1b24; border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:25px; color:#aaa; font-size:18px;">
+                    🎬 Видео пока не добавлено
+                </div>
+                {% endif %}
+
+                {% if next_episode %}
+                <button id="nextEpisode">
+                    Следующая серия ▶
+                </button>
+                {% endif %}
+            </div>
+            <div class="episode-nav">
+                {% if prev_episode %}
+                <a href="{% url 'episode_detail' prev_episode.id %}" class="nav-btn">◀ {{ prev_episode.episode_number }} серия</a>
+                {% else %}
+                <a href="{% url 'anime_detail_page' episode.season.anime.slug %}#wached" class="nav-btn">Все серии</a>
+                {% endif %}
+                {% if next_episode %}
+                <a href="{% url 'episode_detail' next_episode.id %}" class="nav-btn">{{ next_episode.episode_number }} серия ▶</a>
+                {% else %}
+                <a href="{% url 'anime_detail_page' episode.season.anime.slug %}#wached" class="nav-btn">Все серии</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+const video = document.getElementById("video");
+const nextBtn = document.getElementById("nextEpisode");
+const playerWrapper = document.getElementById("playerWrapper");
+
+if (video && nextBtn) {
+    let shouldShow = false;
+
+    video.addEventListener("timeupdate", () => {
+        if (!video.duration) return;
+
+        const remaining = video.duration - video.currentTime;
+
+        if (remaining <= 93) {
+            shouldShow = true;
+            nextBtn.style.display = "block";
+        } else {
+            shouldShow = false;
+            nextBtn.style.display = "none";
+        }
+    });
+
+    nextBtn.addEventListener("click", () => {
+        window.location.href = "{% if next_episode %}{% url 'episode_detail' next_episode.id %}{% endif %}";
+    });
+
+    function handleFullscreen() {
+        const isFullscreen = document.fullscreenElement;
+
+        if (isFullscreen) {
+            nextBtn.style.position = "absolute";
+            nextBtn.style.bottom = "70px";
+            nextBtn.style.right = "20px";
+            nextBtn.style.zIndex = "9999";
+        } else {
+            nextBtn.style.bottom = "68px";
+            nextBtn.style.right = "15px";
+        }
+
+        nextBtn.style.display = shouldShow ? "block" : "none";
+    }
+
+    document.addEventListener("fullscreenchange", handleFullscreen);
+}
+// ===== ПРОГРЕСС =====
+const animeId = {{ episode.season.anime.id }};
+const seasonId = {{ episode.season.id }};
+const episodeId = {{ episode.id }};
+const csrfToken = '{{ csrf_token }}';
+
+// Восстанавливаем позицию
+const savedSeconds = {{ history.watched_seconds|default:0 }};
+if (video && savedSeconds > 0) {
+    video.addEventListener('loadedmetadata', () => {
+        video.currentTime = savedSeconds;
+    });
+}
+
+// Сохраняем каждые 5 секунд
+if (video) {
+    setInterval(() => {
+        if (video.paused || video.ended) return;
+
+        fetch('/save-progress/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({
+                anime_id: animeId,
+                season_id: seasonId,
+                episode_id: episodeId,
+                watched_seconds: Math.floor(video.currentTime),
+                duration_seconds: Math.floor(video.duration),
+            })
+        });
+    }, 5000);
+}
+</script>
+{% endblock %}

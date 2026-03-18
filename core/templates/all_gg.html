@@ -1,0 +1,107 @@
+{% extends './base.html' %}
+{% block content %}
+
+<main class="main">
+    <section class="characters-page">
+<<<<<<< HEAD
+        <h1 class="characters-title">Главные Герои</h1>
+=======
+        <h1 class="characters-title">Персонажи</h1>
+>>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
+                <form method="get">
+            <div class="catalog-filters">
+
+                <!-- Поиск -->
+                <div class="search-wrap">
+                    <span class="search-icon">🔍</span>
+                    <input
+                        type="text"
+                        class="search-input"
+<<<<<<< HEAD
+                        placeholder="Имя персонажа на Английском"
+=======
+                        placeholder="Введите имя персонажа на Английском"
+>>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
+                        name="search"
+                        value="{{ search_query }}"
+                    >
+                    <button type="submit" class="search-btn">Найти</button>
+                </div>
+
+                <!-- Цвет глаз -->
+                <select name="eye_color" class="filter-select" onchange="this.form.submit()">
+                    <option value="">Цвет глаз</option>
+                    {% for color in eye_colors %}
+                        <option value="{{ color.0 }}" {% if selected_eye == color.0 %}selected{% endif %}>
+                            {{ color.1 }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <!-- Цвет волос -->
+                <select name="hair_color" class="filter-select" onchange="this.form.submit()">
+                    <option value="">Цвет волос</option>
+                    {% for color in hair_colors %}
+                        <option value="{{ color.0 }}" {% if selected_hair == color.0 %}selected{% endif %}>
+                            {{ color.1 }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <!-- Пол -->
+                <select name="gender" class="filter-select" onchange="this.form.submit()">
+                    <option value="">Пол</option>
+                    {% for g in genders %}
+                        <option value="{{ g.0 }}" {% if selected_genders == g.0 %}selected{% endif %}>
+                            {{ g.1 }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <!-- Раса -->
+                <select name="specie" class="filter-select" onchange="this.form.submit()">
+                    <option value="">Раса</option>
+                    {% for s in species %}
+                        <option value="{{ s.0 }}" {% if selected_specie == s.0 %}selected{% endif %}>
+                            {{ s.1 }}
+                        </option>
+                    {% endfor %}
+                </select>
+<<<<<<< HEAD
+                <a href="{% url 'all_gg_page' %}" class="search-btn">🗑</a>
+=======
+
+>>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
+            </div>
+        </form>
+
+        <div class="characters-grid">
+            {% for c in character %}
+            <div class="char-card">
+                <div class="char-thumb">
+                    {% if c.image %}
+                        <img src="{{ c.image.url }}" alt="{{ c.name }}"/>
+                    {% else %}
+                        <div class="char-no-img">{{ c.name|first }}</div>
+                    {% endif %}
+                </div>
+                <div class="char-info">
+                    <h3 class="char-name">{{ c.name }} <a href="{% url 'all_gg_page' %}" class="char-gg">★ ГГ</a></h3>
+                    <a href="{% url 'anime_detail_page' c.anime.slug %}" class="char-anime">{{ c.anime.name }}</a>
+                    <div class="char-details">
+                        <span class="char-tag">Цвет глаз: {{ c.get_eye_color_display }}</span>
+                        <span class="char-tag">Цвет волос: {{ c.get_hair_color_display }}</span>
+                        {% if c.age %}<span class="char-tag">Возраст: {{ c.age }} лет</span>{% endif %}
+                        <span class="char-tag">Пол: {{ c.get_gender_display }}</span>
+                        <span class="char-tag">Раса: {{ c.get_species_display }}</span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="characters-empty">Персонажи пока не добавлены 😔</p>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+
+{% endblock %}
