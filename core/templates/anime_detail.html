@@ -177,46 +177,49 @@
             {% endfor %}
         </div>
     </section>
+
     <!-- RIGHT: Comments -->
-    <aside class="card comments-card" aria-label="Комментарии">
-      <div class="comments-head">
-        <h2 class="h2">Комментарии</h2>
-        <span class="muted small">{{ anime.comments.all.count }}</span>
-      </div>
-
-      <div class="comments-list">
-        {% for comment in anime.comments.all %}
-        <article class="comment">
-        {% if comment.author.avatar %}
-            <img aria-hidden="true" class="c-userpic" src="{{ comment.author.avatar.url }}" alt="">
-        {% else %}
-            <span class="c-userpic" aria-hidden="true"></span>
-        {% endif %}
-          <div class="c-body">
-            <div class="c-top">
-                <a href="{% url 'profil_page' comment.author.pk %}" class="c-name"><strong>{{ comment.author }}</strong></a>
-            </div>
-            <p class="c-text">
-              {% if comment.parent %}
-              <strong>{{ comment.parent.author }}</strong>,
-              {% endif %}
-              {{ comment.content }}
-            </p>
-            <div class="c-actions muted small">
-              <button class="linklike" type="button">Ответить</button>
-            </div>
-          </div>
-        </article>
-        {% endfor %}
-      </div>
-
-      <div class="comment-form">
+    <div class="comments-list" id="commentsList">
+        <div class="comment-form">
         <form class="comment-input" action="{% url 'comment_action' anime.slug %}" method="post">
           {% csrf_token %}
-          <input name="comment" class="input" placeholder="Добавить комментарий..." />
+          <input  name="comment" class="input" placeholder="Добавить комментарий..." />
           <button class="send" type="submit">Отправить</button>
         </form>
       </div>
+
+    {% for comment in anime.comments.all %}
+    <article class="comment" style="display:none;" data-index="{{ forloop.counter0 }}">
+        {% if comment.author.avatar %}
+            <img aria-hidden="true" class="c-userpic" src="{{ comment.author.avatar.url }}" alt="">
+        {% else %}
+            <span class="profile-avatar-default" aria-hidden="true">🌸</span>
+        {% endif %}
+        <div class="c-body">
+            <div class="c-top">
+                <span style="font-size: 12px;color: #827e7e;">{{ comment.created_at }}</span>
+                <a href="{% url 'profil_page' comment.author.pk %}" class="c-name"><strong>{{ comment.author }}</strong></a>
+                
+            </div>
+            <p class="c-text">
+                {% if comment.parent %}
+                <strong>{{ comment.parent.author }}</strong>,
+                {% endif %}
+                {{ comment.content }}
+            </p>
+            <div class="c-actions muted small">
+                <button class="linklike" type="button">Ответить</button>
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+    </div>
+</div>
+
+<div id="showMoreWrap" style="text-align:center; margin-top:16px; display:flex; gap:8px; justify-content:center;">
+    <button id="showMoreBtn" class="btn-secondary" onclick="showMoreComments()">Показать ещё</button>
+    <button id="hideBtn" class="btn-secondary" onclick="hideComments()" style="display:none;">Скрыть</button>
+</div>
     </aside>
 </main>
 
@@ -251,5 +254,45 @@ function toggleRating(e) {
 document.addEventListener('click', () => {
     document.getElementById('ratingDropdown')?.classList.remove('open');
 });
+
+// ===== КОММЕНТАРИИ =====
+let visibleCount = 0;
+
+function showMoreComments() {
+    const comments = document.querySelectorAll('#commentsList .comment');
+    const total = comments.length;
+    const step = visibleCount === 0 ? 5 : 10;
+    const next = Math.min(visibleCount + step, total);
+
+    for (let i = visibleCount; i < next; i++) {
+        comments[i].style.display = 'flex';
+    }
+    visibleCount = next;
+
+    document.getElementById('hideBtn').style.display = visibleCount > 5 ? 'inline-block' : 'none';
+
+    if (visibleCount >= total) {
+        document.getElementById('showMoreBtn').style.display = 'none';
+    }
+}
+
+function hideComments() {
+    const comments = document.querySelectorAll('#commentsList .comment');
+    const next = Math.max(visibleCount - 10, 5);
+
+    for (let i = next; i < visibleCount; i++) {
+        comments[i].style.display = 'none';
+    }
+    visibleCount = next;
+
+    document.getElementById('showMoreBtn').style.display = 'inline-block';
+
+    if (visibleCount <= 5) {
+        document.getElementById('hideBtn').style.display = 'none';
+    }
+}
+
+showMoreComments();
+
 </script>
 {% endblock %}

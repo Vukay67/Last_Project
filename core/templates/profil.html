@@ -7,20 +7,22 @@
             <!-- Аватар + инфо -->
             <div class="profile-hero">
                 <div class="profile-avatar-wrap">
-                    {% if request.user.avatar %}
-                        <img src="{{ request.user.avatar.url }}" alt="{{ request.user.username }}" class="profile-avatar-img"/>
+                    {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="profile-avatar-img"/>
                     {% else %}
                         <div class="profile-avatar">🌸</div>
                     {% endif %}
+                </div>
                 <div class="profile-info">
-                    <h1 class="profile-name">{{ request.user.username }}</h1>
-                    <p class="profile-tag">{{ request.user.email }}</p>
-                    <p class="profile-bio">{{ request.user.description }}</p>
+                    <h1 class="profile-name">{{ user.username }}</h1>
+                    <p class="profile-tag">{{ user.email }}</p>
+                    <p class="profile-bio">{{ user.description }}</p>
+                    {% if user.id == request.user.id %}
                     <div class="profile-actions">
                         <a href="{% url 'redact_page' %}" class="btn-primary">Редактировать</a>
                         <a href="{% url 'logout' %}" class="btn-primary">Выйти</a>
                     </div>
-                </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -53,7 +55,7 @@
                 <!-- Просмотрено -->
                 <div class="watchlist-panel" id="tab-watched">
                     {% for w in watched %}
-                    <a href="{% url 'anime_detail_page' w.anime.slug %}"  class="anime-card">
+                    <a href="{% url 'anime_detail_page' w.anime.slug %}" class="anime-card">
                         <div class="anime-thumb"><img src="{{ w.anime.image.url }}" alt="{{ w.anime.name }}" /></div>
                         <div class="anime-card-info">
                             <span class="anime-title">{{ w.anime.name }}</span>
@@ -65,20 +67,19 @@
                             {% endfor %}
                             </span>
                             <span class="anime-rating">
-                                    {% if w.user_rating %}
-                                        ⭐ {{ w.user_rating }}/5
-                                    {% else %}
-                                        Не добавлен рейтинг
-                                    {% endif %}
+                                {% if w.user_rating %}
+                                    ⭐ {{ w.user_rating }}/5
+                                {% else %}
+                                    Не добавлен рейтинг
+                                {% endif %}
                             </span>
                         </div>
                     </a>
                     {% endfor %}
                 </div>
+            </div>
         </div>
     </main>
-</body>
-</html>
 
 {% block scripts %}
 <script>

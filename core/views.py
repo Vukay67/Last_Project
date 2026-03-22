@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import login, logout
 from django.contrib import messages
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import AuthenticationForm, RegistrationForm, CustemUserForm
@@ -325,6 +326,7 @@ def profil_page(request, pk):
     planned = user.bookmark_set.filter(status='planned')
 
     context = {
+        'user': user,
         'watched': watched,
         'planned': planned,
     }
@@ -410,4 +412,4 @@ def comment_action(request, slug):
     comment = Comments.objects.create(author=user, anime=anime, content=comment_text)
     comment.save()
 
-    return redirect("anime_detail_page", slug=slug)
+    return redirect(reverse("anime_detail_page", kwargs={"slug": slug}) + "#commentsList")

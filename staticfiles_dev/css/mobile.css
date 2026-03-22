@@ -1,0 +1,341 @@
+/* ===== BOTTOM NAV — скрыт на десктопе ===== */
+.bottom-nav { display: none; }
+
+/* ===== МОБИЛЬНАЯ АДАПТАЦИЯ (≤768px) ===== */
+@media (max-width: 768px) {
+
+  /* --- Хедер: скрываем nav, центруем лого --- */
+  .nav { display: none !important; }
+  .header {
+    padding: 12px 16px;
+    justify-content: center;
+  }
+
+  /* --- Отступ под bottom nav --- */
+  .main { padding-bottom: 72px; }
+
+  /* --- Bottom nav --- */
+  .bottom-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #111118;
+    border-top: 1px solid #1e1e2e;
+    z-index: 200;
+    padding: 6px 0;
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
+  }
+  .bottom-nav a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: #555;
+    font-size: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color .2s;
+    padding: 4px 0;
+  }
+  .bottom-nav a.active,
+  .bottom-nav a:hover { color: #ff4d6d; }
+
+  /* Footer скрываем — есть bottom nav */
+  .footer { display: none; }
+
+  /* --- Hero --- */
+  .hero { padding: 40px 16px 36px; }
+  .hero-title { font-size: 26px; }
+  .hero-sub { font-size: 13px; }
+  .hero-actions { flex-direction: column; align-items: stretch; gap: 8px; }
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary { width: 100%; text-align: center; }
+
+  /* --- Catalog grid → вертикальный список --- */
+  .anime-grid {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0;
+  }
+  .anime-grid-card {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 0 !important;
+    border: none;
+    border-bottom: 1px solid #1e1e2e;
+    transform: none !important;
+  }
+  .anime-grid-card:first-child { border-radius: 10px 10px 0 0 !important; }
+  .anime-grid-card:last-child  { border-radius: 0 0 10px 10px !important; border-bottom: none; }
+
+  .anime-grid-thumb {
+    width: 72px !important;
+    height: 100px !important;
+    aspect-ratio: unset !important;
+    flex-shrink: 0;
+    border-radius: 8px;
+    margin: 10px 12px;
+  }
+  .anime-grid-info {
+    flex: 1;
+    padding: 10px 12px 10px 0;
+    gap: 5px;
+  }
+  .anime-grid-title {
+    font-size: 14px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    line-height: 1.3;
+  }
+  .anime-grid-genre { font-size: 12px; }
+  .anime-grid-year { top: auto; bottom: 8px; right: 8px; }
+
+  /* --- Detail page --- */
+  .detail-hero { min-height: unset; }
+  .detail-hero-overlay { background: linear-gradient(to bottom, rgba(10,10,18,.5) 0%, rgba(10,10,18,.95) 100%); }
+  .detail-hero-content {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    padding: 20px 16px 28px;
+    gap: 14px;
+    flex-wrap: nowrap;
+  }
+  .detail-poster { width: 100px; flex-shrink: 0; }
+  .detail-poster img { border-radius: 8px; }
+  .detail-info { flex: 1; min-width: 0; }
+  .detail-title { font-size: 16px; margin-bottom: 6px; }
+  .detail-year { font-size: 11px; margin-bottom: 10px; }
+  .detail-genres { justify-content: flex-start; margin-bottom: 8px; gap: 4px; }
+  .detail-genre-tag { font-size: 10px; padding: 3px 8px; border-radius: 20px; }
+  .shikimori-rating, .shikiori-rating { padding: 4px 8px; margin-bottom: 6px; }
+  .shikimori-rating-score { font-size: 14px; }
+  .shikimori-rating-label { font-size: 10px; }
+  .detail-desc-wrap { margin-bottom: 14px; }
+  .detail-desc { font-size: 12px; line-height: 1.6; }
+  .desc-toggle { font-size: 12px; }
+  .detail-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    width: 100%;
+  }
+  /* Кнопка Смотреть — на всю ширину */
+  .detail-actions > a.btn-primary {
+    width: 100%;
+    text-align: center;
+    padding: 10px 14px;
+    font-size: 13px;
+    box-sizing: border-box;
+  }
+  /* Кнопки закладок и оценить — в одну линию */
+  .detail-actions .watchlist-dropdown-wrap,
+  .detail-actions .rating-wrap {
+    flex: 1;
+    display: flex;
+  }
+  .detail-actions .watchlist-dropdown-wrap,
+  .detail-actions .rating-wrap {
+    flex-wrap: nowrap;
+  }
+  /* Оборачиваем их в flex-row */
+  .detail-actions .watchlist-dropdown-wrap ~ .rating-wrap {
+    /* оба элемента идут подряд — браузер сам разместит */
+  }
+  .detail-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .detail-actions > a.btn-primary {
+    flex: 0 0 100%;
+  }
+  .detail-actions .watchlist-dropdown-wrap,
+  .detail-actions .rating-wrap {
+    flex: 1 1 auto;
+  }
+  .detail-actions .watchlist-dropdown-wrap .btn-secondary,
+  .detail-actions .rating-wrap .btn-secondary {
+    width: 100%;
+    text-align: center;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  /* Дропдауны открываются вниз на мобиле */
+  .watchlist-dropdown,
+  .rating-dropdown { bottom: auto; top: calc(100% + 8px); }
+
+  .detail-seasons { padding: 20px 16px 28px; }
+  .detail-section-title { font-size: 16px; margin-bottom: 14px; }
+
+  /* Персонажи скролл */
+  .characters-page.detail-characters { padding: 0 16px 28px; }
+  .characters-scroll .char-card { width: 130px; }
+  .char-name { font-size: 12px; }
+  .char-tag { font-size: 10px; }
+
+  /* Комментарии */
+  .comments-list { padding: 0 16px; }
+  .comment-input { flex-direction: row; gap: 8px; }
+  .comment-input .input { font-size: 12px; }
+  .comment-input .send { font-size: 12px; padding: 0 12px; }
+
+  /* --- Profile --- */
+  .profile { padding: 20px 16px 80px; text-align: center; }
+  .profile-hero {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .profile-avatar-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .profile-avatar {
+    width: 100px; height: 100px;
+    font-size: 48px;
+    border-radius: 50%;
+    border: 3px solid #1e1e2e;
+  }
+  .profile-avatar-img {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    border: 3px solid #1e1e2e;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .profile-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .profile-name { font-size: 24px; margin-bottom: 0; text-align: center; }
+  .profile-tag  { font-size: 12px; margin-bottom: 0; text-align: center; }
+  .profile-bio  { font-size: 13px; margin-bottom: 0; text-align: center; }
+  .profile-actions {
+    justify-content: center;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  /* Закладки — влево */
+  .watchlist { width: 100%; text-align: left; }
+  .watchlist-tabs {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 6px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    text-align: left;
+  }
+  .watchlist-tabs::-webkit-scrollbar { display: none; }
+  .watchlist-tab { white-space: nowrap; flex-shrink: 0; padding: 7px 14px; font-size: 12px; }
+
+  /* Статистика — 3 колонки */
+  .profile-stats {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .stat-item {
+    padding: 18px 8px;
+    border-right: 1px solid #1e1e2e;
+    border-bottom: 1px solid #1e1e2e;
+  }
+  .stat-item:nth-child(3n) { border-right: none; }
+  .stat-number { font-size: 20px; }
+  .stat-label { font-size: 10px; }
+
+  /* Watchlist tabs — горизонтальный скролл */
+  .watchlist-tabs {
+    gap: 6px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .watchlist-tabs::-webkit-scrollbar { display: none; }
+  .watchlist-tab { white-space: nowrap; flex-shrink: 0; padding: 7px 14px; font-size: 12px; }
+
+  /* Anime list в профиле — горизонтальный скролл */
+  .anime-list {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+  .anime-list::-webkit-scrollbar { display: none; }
+  .anime-card { flex-direction: column; align-items: flex-start; min-width: 120px; padding: 8px; gap: 8px; }
+  .anime-thumb { width: 100%; height: 80px; border-radius: 6px; }
+  .anime-title { font-size: 12px; }
+  .anime-genre { font-size: 10px; }
+
+  /* --- Catalog page --- */
+  .catalog-page { padding: 16px 16px 80px; }
+  .catalog-page-title { font-size: 20px; margin-bottom: 16px; }
+  .catalog-filters { flex-direction: column; gap: 8px; }
+  .search-wrap, .filter-select { width: 100%; }
+
+  /* Скрываем кнопку 🗑 на мобиле */
+  .catalog-filters a.search-btn { display: none !important; }
+
+  /* --- Characters --- */
+  .characters-page { padding: 16px 16px 80px; }
+  .characters-title { font-size: 22px; margin-bottom: 16px; }
+  .characters-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+  /* --- Seasons / Episodes --- */
+  .season-header { padding: 14px 16px; font-size: 13px; }
+  .episode-row { padding: 11px 16px; gap: 10px; }
+  .episode-title { font-size: 13px; }
+
+  /* --- About / Contacts --- */
+  .about { padding: 24px 16px 80px; }
+  .about h1 { font-size: 24px; }
+  .about-cards { flex-direction: column; align-items: stretch; }
+  .about-card { width: 100%; padding: 20px 16px; }
+  .about-stats { flex-direction: column; align-items: center; gap: 16px; padding: 20px; }
+  .contacts { padding: 24px 16px 80px; }
+  .contacts-grid { grid-template-columns: 1fr 1fr; }
+
+  /* --- Comments --- */
+  .comments-card { margin: 20px 16px 80px; padding: 18px 14px; }
+  .comment-input { margin-left: 0; }
+
+  /* --- Form --- */
+  .form-page { padding: 20px 16px 80px; }
+  .form-card { padding: 18px 14px; }
+}
+
+/* ===== 480px и ниже ===== */
+@media (max-width: 480px) {
+  .hero-title { font-size: 22px; }
+  .anime-grid-thumb { width: 64px !important; height: 90px !important; }
+  .anime-grid-title { font-size: 13px; }
+  .detail-poster { width: 90px; }
+  .detail-title { font-size: 16px; }
+  .characters-grid { gap: 8px; }
+  .char-info { padding: 8px; }
+  .char-name { font-size: 12px; }
+  .stat-number { font-size: 18px; }
+}

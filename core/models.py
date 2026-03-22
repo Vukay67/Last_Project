@@ -197,6 +197,7 @@ class WatchHistory(models.Model):
     
 # ================== Comments ==================
 class Comments(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(CustemUser, on_delete=models.CASCADE)
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE, related_name="comments")
     content = models.CharField(max_length=600)
