@@ -1,16 +1,9 @@
 from django.shortcuts import redirect, render
-<<<<<<< HEAD
 from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import AuthenticationForm, RegistrationForm, CustemUserForm
-=======
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from .forms import AuthenticationForm, RegistrationForm
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
 from .models import *
 from django.db import models as db_models
 from django.shortcuts import get_object_or_404
@@ -64,10 +57,7 @@ def main_page(request):
     event = Anime.event
     year = timezone.now().year
     event_ani = Anime.objects.filter(ss_year=event)
-<<<<<<< HEAD
-    
-=======
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
+
     if request.user.is_authenticated:
         history = WatchHistory.objects.filter(user=request.user).order_by('-id').select_related('anime', 'episode')[:10]
     else:
@@ -121,7 +111,7 @@ def register_page(request):
             email = form.cleaned_data.get("email")
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
-            user = User.objects.create_user(
+            user = CustemUser.objects.create_user(
                 email=email,
                 username=username,
                 password=password
@@ -133,16 +123,13 @@ def register_page(request):
     context = {
         'form': form
     }
-    return render(request, 'register.html', context)
-
-<<<<<<< HEAD
+    return render(request, 'register.html', context)\
+    
 def logout_view(request):
     logout(request)
     messages.info(request, '👋 Вы вышли из аккаунта.')
     return redirect('main_page')
 
-=======
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
 def anime_detail_page(request, slug):
     anime = get_object_or_404(
         Anime.objects.prefetch_related('genres', 'seasons__episodes'),
@@ -174,10 +161,7 @@ def all_anime_page(request):
     search_query = request.GET.get('search', '')
     genre_id = request.GET.get('genres', '')
     sort_option = request.GET.get('sort', '')
-<<<<<<< HEAD
     delete = request.GET.get('delete')
-=======
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
 
     animes = Anime.objects.prefetch_related('genres', 'seasons__episodes')
 
@@ -328,8 +312,8 @@ def add_reating(request, slug, point):
     return redirect("anime_detail_page", slug=slug)
 
 @login_required
-def profil_page(request):
-    user = request.user
+def profil_page(request, pk):
+    user = get_object_or_404(CustemUser, id=pk)
 
     rating_sub = Reating.objects.filter(
         user=user, anime=OuterRef('anime')
@@ -396,12 +380,11 @@ def save_progress(request):
     return JsonResponse({'status': 'ok', 'progress': history.progress_percent})
 
 def redact_page(request):
-<<<<<<< HEAD
     if request.method == "POST":
         form = CustemUserForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect("profil_page")
+            return redirect("profil_page", pk=request.user.pk)
     else:
         form = CustemUserForm(instance=request.user)
 
@@ -411,11 +394,20 @@ def redact_page(request):
 
     return render(request, "redact.html", context)
 
-=======
-    return render(request, "redact.html", {})
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
 def about_page(request):
     return render(request, "about.html", {})
 
 def contacts_page(request):
     return render(request, "contacts.html", {})
+
+@login_required
+@require_POST
+def comment_action(request, slug):
+    anime = Anime.objects.get(slug=slug)
+    user = request.user
+    comment_text = request.POST.get("comment")
+
+    comment = Comments.objects.create(author=user, anime=anime, content=comment_text)
+    comment.save()
+
+    return redirect("anime_detail_page", slug=slug)

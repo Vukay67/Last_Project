@@ -177,6 +177,47 @@
             {% endfor %}
         </div>
     </section>
+    <!-- RIGHT: Comments -->
+    <aside class="card comments-card" aria-label="Комментарии">
+      <div class="comments-head">
+        <h2 class="h2">Комментарии</h2>
+        <span class="muted small">{{ anime.comments.all.count }}</span>
+      </div>
+
+      <div class="comments-list">
+        {% for comment in anime.comments.all %}
+        <article class="comment">
+        {% if comment.author.avatar %}
+            <img aria-hidden="true" class="c-userpic" src="{{ comment.author.avatar.url }}" alt="">
+        {% else %}
+            <span class="c-userpic" aria-hidden="true"></span>
+        {% endif %}
+          <div class="c-body">
+            <div class="c-top">
+                <a href="{% url 'profil_page' comment.author.pk %}" class="c-name"><strong>{{ comment.author }}</strong></a>
+            </div>
+            <p class="c-text">
+              {% if comment.parent %}
+              <strong>{{ comment.parent.author }}</strong>,
+              {% endif %}
+              {{ comment.content }}
+            </p>
+            <div class="c-actions muted small">
+              <button class="linklike" type="button">Ответить</button>
+            </div>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+
+      <div class="comment-form">
+        <form class="comment-input" action="{% url 'comment_action' anime.slug %}" method="post">
+          {% csrf_token %}
+          <input name="comment" class="input" placeholder="Добавить комментарий..." />
+          <button class="send" type="submit">Отправить</button>
+        </form>
+      </div>
+    </aside>
 </main>
 
 <script>

@@ -1,6 +1,4 @@
-﻿
-
-from pathlib import Path
+﻿from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -12,10 +10,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-<<<<<<< HEAD
 AUTH_USER_MODEL = "core.CustemUser"
-=======
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
 LOGIN_URL = "login_page"
 
 INSTALLED_APPS = [

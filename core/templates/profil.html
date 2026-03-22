@@ -6,40 +6,22 @@
 
             <!-- Аватар + инфо -->
             <div class="profile-hero">
-<<<<<<< HEAD
                 <div class="profile-avatar-wrap">
                     {% if request.user.avatar %}
                         <img src="{{ request.user.avatar.url }}" alt="{{ request.user.username }}" class="profile-avatar-img"/>
                     {% else %}
                         <div class="profile-avatar">🌸</div>
                     {% endif %}
-=======
-                {% if request.user.image %}
-                <img src="{{ request.user.image.url }}" alt="{{ request.user.username }}">
-                {% else %}
-                <div class="profile-avatar-wrap">
-                    <div class="profile-avatar">🌸</div>
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
-                </div>
                 <div class="profile-info">
                     <h1 class="profile-name">{{ request.user.username }}</h1>
                     <p class="profile-tag">{{ request.user.email }}</p>
-<<<<<<< HEAD
                     <p class="profile-bio">{{ request.user.description }}</p>
                     <div class="profile-actions">
                         <a href="{% url 'redact_page' %}" class="btn-primary">Редактировать</a>
                         <a href="{% url 'logout' %}" class="btn-primary">Выйти</a>
                     </div>
                 </div>
-=======
-                    <p class="profile-bio">Обожаю сёнэн и романтику. Топ — Demon Slayer и Your Name 🌙</p>
-                    <div class="profile-actions">
-                        <a href="{% url 'redact_page' %}" class="btn-primary">Редактировать</a>
-                        <button class="btn-secondary">Поделиться</button>
-                    </div>
                 </div>
-                {% endif %}
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
             </div>
 
             <!-- Вкладки списков -->

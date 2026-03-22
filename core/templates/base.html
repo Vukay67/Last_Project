@@ -35,16 +35,19 @@
                 <li><a href="{% url 'all_anime_page' %}">Каталог</a></li>
                 <li><a href="{% url 'characters_page' %}">Персонажи</a></li>
                 <li>
-                    <a href="{% url 'profil_page' %}" class="profile-btn">
-<<<<<<< HEAD
+                    {% if request.user.is_authenticated %}
+                    <a href="{% url 'profil_page' request.user.pk %}" class="profile-btn">
                         {% if request.user.avatar %}
                             <img src="{{ request.user.avatar.url }}" alt="{{ request.user.username }}" class="profile-avatar-img"/>
                         {% else %}
-                            <div class="profile-avatar">🌸</div>
+                            <div class="profile-avatar-default">🌸</div>
                         {% endif %}
-=======
-                        <span class="nav-avatar-icon">🌸</span>
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
+                    </a>
+                    {% else %}
+                    <a href="{% url 'login_page' %}" class="profile-btn">
+                        <div class="profile-avatar-default">🌸</div>
+                    </a>
+                    {% endif %}
                     </a>
                 </li>
             </ul>

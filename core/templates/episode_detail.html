@@ -1,12 +1,12 @@
 {% extends './base.html' %}
 {% block content %}
 <main class="main">
-    <span style="font-size: 35px;">
+    <span style="font-size: 35px; margin-top: 40px; display: block; text-align: center;">
         <a href="{% url 'anime_detail_page' episode.season.anime.slug %}" style="margin-bottom: 16px; font-size: 35px; color: white;">{{ episode.season.anime.name }}</a> 
         {{ episode.episode_number }} <a style="margin-bottom: 16px; font-size: 35px; color: white;" href="{% url 'anime_detail_page' episode.season.anime.slug %}#wached">серия</a>
     </span>
     <div class="episode-grid">
-        <h4 style="margin-top: 30px;">{{ episode.title }}</h4>
+        <h4 style="text-align: center; margin-top: 30px;">{{ episode.title }}</h4>
         <div class="container">
             <div class="player" id="playerWrapper" style="position:relative;">
                 {% if episode.video %}

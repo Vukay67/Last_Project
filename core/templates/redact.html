@@ -1,6 +1,5 @@
 {% extends './base.html' %}
 {% block content %}
-<<<<<<< HEAD
 <main class="main">
     <section class="form-page">
         <h1 class="form-title">Изменить</h1>
@@ -25,10 +24,7 @@
     </section>
 </main>
 
-<p>{{ request.user.avatar.url }}</p>
-=======
-
-
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
-
+{% if request.user.avatar %}
+    <p>{{ request.user.avatar.url }}</p>
+{% endif %}
 {% endblock %}

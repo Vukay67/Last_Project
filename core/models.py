@@ -1,25 +1,19 @@
 from django.db import models
 from django.utils.text import slugify
-<<<<<<< HEAD
 from django.db.models.signals import post_save, post_delete
 from django.contrib.auth.models import AbstractUser
-=======
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
 from django.dispatch import receiver
 from django.db.models.functions import Cast
 from django.db.models import FloatField, Avg
 from django.utils import timezone
 
-<<<<<<< HEAD
 # ================== EditeProfil ==================
 class CustemUser(AbstractUser):
-    avatar = models.ImageField(upload_to="avatars")
-    description = models.TextField(max_length=250)
+    avatar = models.ImageField(upload_to="avatars", null=True, blank=True)
+    description = models.TextField(max_length=250, null=True, blank=True)
 
-=======
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
 # ================== Genre ==================
 class Genre(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название")
@@ -74,11 +68,7 @@ class Bookmark(models.Model):
         ['watched', 'Просмотрено'],
     ]
 
-<<<<<<< HEAD
     user = models.ForeignKey(CustemUser, on_delete=models.CASCADE)
-=======
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
 
@@ -86,7 +76,7 @@ class Bookmark(models.Model):
         unique_together = ("user", "anime")
 
     def __str__(self):
-        return f"{self.user} - {self.anime} ({self.status})"
+        return f"{self.user} - {self.anime.name} ({self.status})"
     
 # ================== Reating ==================
 class Reating(models.Model):
@@ -98,11 +88,7 @@ class Reating(models.Model):
         ['5', '⭐5'],
     ]
 
-<<<<<<< HEAD
     user = models.ForeignKey(CustemUser, on_delete=models.CASCADE)
-=======
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
     point = models.CharField(max_length=5, choices=REATING_CHOICES)
 
@@ -110,7 +96,7 @@ class Reating(models.Model):
         unique_together = ("user", "anime")
 
     def __str__(self):
-        return f"{self.user} - {self.anime} ({self.point})"
+        return f"{self.user} - {self.anime.name} ({self.point})"
 
 # ================== SeasonAnime ==================
 class SeasonAnime(models.Model):
@@ -118,7 +104,7 @@ class SeasonAnime(models.Model):
     seasons_number = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"Аниме: {self.anime} || Сезон: {self.seasons_number}"
+        return f"Аниме: {self.anime.name} || Сезон: {self.seasons_number}"
 
 # ================== Episode ==================
 class Episode(models.Model):
@@ -129,7 +115,7 @@ class Episode(models.Model):
     poster = models.ImageField(upload_to="episode_posters/")
 
     def __str__(self):
-        return f"Аниме: {self.season.anime} || Сезон: {self.season.seasons_number} || Название: {self.title} || Эпизод: {self.episode_number}"
+        return f"Аниме: {self.season.anime.name} || Сезон: {self.season.seasons_number} || Название: {self.title} || Эпизод: {self.episode_number}"
     
 # ================== Character ==================
 class Character(models.Model):
@@ -193,12 +179,7 @@ class BackgroundPicture(models.Model):
 
 # ================== WatchHistory ==================
 class WatchHistory(models.Model):
-
-<<<<<<< HEAD
     user = models.ForeignKey(CustemUser, on_delete=models.CASCADE)
-=======
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE)
     season_anime = models.ForeignKey(SeasonAnime, on_delete=models.CASCADE)
     episode = models.ForeignKey(Episode, on_delete=models.CASCADE)
@@ -213,3 +194,21 @@ class WatchHistory(models.Model):
 
     def __str__(self):
         return f"Пользователь: {self.user} || Аниме: {self.anime.name} || Сезон: {self.season_anime.seasons_number} || Серия: {self.episode.episode_number} || {self.progress_percent}%"
+    
+# ================== Comments ==================
+class Comments(models.Model):
+    author = models.ForeignKey(CustemUser, on_delete=models.CASCADE)
+    anime = models.ForeignKey(Anime, on_delete=models.CASCADE, related_name="comments")
+    content = models.CharField(max_length=600)
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
+
+    @property
+    def children(self):
+        return Comments.objects.filter(parent=self).all()
+    
+    @property
+    def children_count(self):
+        return Comments.objects.filter(parent=self).all().count()
+
+    def __str__(self):
+        return f"{self.author} оставил комментарий на аниме {self.anime.name}"

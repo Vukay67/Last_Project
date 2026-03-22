@@ -10,7 +10,7 @@ urlpatterns = [
     path('contacts', contacts_page, name="contacts_page"),
     path('login/', login_page, name="login_page"),
     path('register/', register_page, name="register_page"),
-    path('profil/', profil_page, name="profil_page"),
+    path('profil/<int:pk>/', profil_page, name="profil_page"),
     path('anime/<str:slug>/', anime_detail_page, name="anime_detail_page"),
     path('anime/', all_anime_page, name="all_anime_page"),
     path('characters/', characters_page, name="characters_page"),
@@ -20,8 +20,6 @@ urlpatterns = [
     path('reating/<str:slug>/<str:point>/', add_reating, name="add_reating"),
     path('redact/', redact_page, name="redact_page"),
     path('save-progress/', views.save_progress, name='save_progress'),
-<<<<<<< HEAD
-    path('logout/', logout_view, name="logout")
-=======
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
+    path('logout/', logout_view, name="logout"),
+    path('comment/<str:slug>/', comment_action, name="comment_action"),
 ]

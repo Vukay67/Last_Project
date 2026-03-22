@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-<<<<<<< HEAD
 from .models import CustemUser
 
 class CustemUserForm(forms.ModelForm):
@@ -39,8 +38,6 @@ class CustemUserForm(forms.ModelForm):
             raise forms.ValidationError("Пользователь с таким email уже существует")
 
         return email
-=======
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
 
 class AuthenticationForm(forms.Form):
     username = forms.CharField(
@@ -109,7 +106,7 @@ class RegistrationForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data.get("email")
 
-        if User.objects.filter(email=email):
+        if CustemUser.objects.filter(email=email):
             raise forms.ValidationError("Пользователь с таким email уже существует")
         
         return email
@@ -117,7 +114,7 @@ class RegistrationForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data.get("username")
 
-        if User.objects.filter(username=username):
+        if CustemUser.objects.filter(username=username):
             raise forms.ValidationError("Пользователь с таким именем уже существует")
         
         return username
@@ -147,9 +144,5 @@ class RegistrationForm(forms.Form):
         if p1 and p2 and p1 != p2:
             raise forms.ValidationError("Пароли не совпадают")
         
-<<<<<<< HEAD
         return cleaned_data
     
-=======
-        return cleaned_data
->>>>>>> ec2a4da0743c3521977992317cb1844b7d3a3a10
