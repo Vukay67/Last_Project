@@ -409,7 +409,8 @@ def comment_action(request, slug):
     user = request.user
     comment_text = request.POST.get("comment")
 
-    comment = Comments.objects.create(author=user, anime=anime, content=comment_text)
-    comment.save()
+    if len(comment_text) != 0:
+        comment = Comments.objects.create(author=user, anime=anime, content=comment_text)
+        comment.save()
 
     return redirect(reverse("anime_detail_page", kwargs={"slug": slug}) + "#commentsList")

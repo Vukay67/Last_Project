@@ -173,8 +173,9 @@
 
   /* Персонажи скролл */
   .characters-page.detail-characters { padding: 0 16px 28px; }
-  .characters-scroll .char-card { width: 130px; }
-  .char-name { font-size: 12px; }
+  .characters-scroll .char-card { width: 160px; }
+  .char-thumb { aspect-ratio: 2/2; }  
+  .char-name { font-size: 13px; }
   .char-tag { font-size: 10px; }
 
   /* Комментарии */
@@ -232,17 +233,13 @@
 
   /* Закладки — влево */
   .watchlist { width: 100%; text-align: left; }
-  .watchlist-tabs {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 6px;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 4px;
-    scrollbar-width: none;
-    text-align: left;
-  }
+.watchlist-tab { 
+    white-space: nowrap; 
+    flex-shrink: 0; 
+    padding: 5px 10px;
+    font-size: 11px;
+    border-radius: 6px;
+}
   .watchlist-tabs::-webkit-scrollbar { display: none; }
   .watchlist-tab { white-space: nowrap; flex-shrink: 0; padding: 7px 14px; font-size: 12px; }
 
@@ -266,13 +263,13 @@
   .stat-label { font-size: 10px; }
 
   /* Watchlist tabs — горизонтальный скролл */
-  .watchlist-tabs {
-    gap: 6px;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 4px;
-    scrollbar-width: none;
-  }
+.watchlist-tab { 
+    white-space: nowrap; 
+    flex-shrink: 0; 
+    padding: 5px 10px;
+    font-size: 11px;
+    border-radius: 6px;
+}
   .watchlist-tabs::-webkit-scrollbar { display: none; }
   .watchlist-tab { white-space: nowrap; flex-shrink: 0; padding: 7px 14px; font-size: 12px; }
 
@@ -302,7 +299,7 @@
   /* --- Characters --- */
   .characters-page { padding: 16px 16px 80px; }
   .characters-title { font-size: 22px; margin-bottom: 16px; }
-  .characters-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .characters-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
   /* --- Seasons / Episodes --- */
   .season-header { padding: 14px 16px; font-size: 13px; }
@@ -338,4 +335,10 @@
   .char-info { padding: 8px; }
   .char-name { font-size: 12px; }
   .stat-number { font-size: 18px; }
+}
+/* Мобильная адаптация фильтра */
+@media(max-width: 768px) {
+    .char-selects { gap: 6px; }
+    .char-select { font-size: 11px; padding: 8px 24px 8px 8px; }
+    .char-clear { width: 30px; height: 30px; font-size: 12px; }
 }

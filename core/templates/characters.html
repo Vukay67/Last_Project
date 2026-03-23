@@ -4,65 +4,45 @@
     <div class="catalog-page">
         <h1 class="catalog-page-title"> Персонажи</h1>
 
-        <form method="get">
-            <div class="catalog-filters">
+    <form method="get" class="char-filter-form">
+        <div class="char-search-wrap">
+            <span>🔍</span>
+            <input type="text" name="search" placeholder="Имя персонажа на английском..." value="{{ search_query }}" class="char-search-input"/>
+            <button type="submit" class="char-search-btn">Найти</button>
+        </div>
 
-                <!-- Поиск -->
-                <div class="search-wrap">
-                    <span class="search-icon">🔍</span>
-                    <input
-                        type="text"
-                        class="search-input"
-                        placeholder="Имя персонажа на Английском"
-                        name="search"
-                        value="{{ search_query }}"
-                    >
-                    <button type="submit" class="search-btn">Найти</button>
-                </div>
+        <div class="char-selects">
+            <select name="eye_color" class="char-select" onchange="this.form.submit()">
+                <option value="">Цвет глаз</option>
+                {% for color in eye_colors %}
+                    <option value="{{ color.0 }}" {% if selected_eye == color.0 %}selected{% endif %}>{{ color.1 }}</option>
+                {% endfor %}
+            </select>
 
-                <!-- Цвет глаз -->
-                <select name="eye_color" class="filter-select" onchange="this.form.submit()">
-                    <option value="">Цвет глаз</option>
-                    {% for color in eye_colors %}
-                        <option value="{{ color.0 }}" {% if selected_eye == color.0 %}selected{% endif %}>
-                            {{ color.1 }}
-                        </option>
-                    {% endfor %}
-                </select>
+            <select name="hair_color" class="char-select" onchange="this.form.submit()">
+                <option value="">Цвет волос</option>
+                {% for color in hair_colors %}
+                    <option value="{{ color.0 }}" {% if selected_hair == color.0 %}selected{% endif %}>{{ color.1 }}</option>
+                {% endfor %}
+            </select>
 
-                <!-- Цвет волос -->
-                <select name="hair_color" class="filter-select" onchange="this.form.submit()">
-                    <option value="">Цвет волос</option>
-                    {% for color in hair_colors %}
-                        <option value="{{ color.0 }}" {% if selected_hair == color.0 %}selected{% endif %}>
-                            {{ color.1 }}
-                        </option>
-                    {% endfor %}
-                </select>
+            <select name="gender" class="char-select" onchange="this.form.submit()">
+                <option value="">Пол</option>
+                {% for g in genders %}
+                    <option value="{{ g.0 }}" {% if selected_genders == g.0 %}selected{% endif %}>{{ g.1 }}</option>
+                {% endfor %}
+            </select>
 
-                <!-- Пол -->
-                <select name="gender" class="filter-select" onchange="this.form.submit()">
-                    <option value="">Пол</option>
-                    {% for g in genders %}
-                        <option value="{{ g.0 }}" {% if selected_genders == g.0 %}selected{% endif %}>
-                            {{ g.1 }}
-                        </option>
-                    {% endfor %}
-                </select>
+            <select name="specie" class="char-select" onchange="this.form.submit()">
+                <option value="">Раса</option>
+                {% for s in species %}
+                    <option value="{{ s.0 }}" {% if selected_specie == s.0 %}selected{% endif %}>{{ s.1 }}</option>
+                {% endfor %}
+            </select>
 
-                <!-- Раса -->
-                <select name="specie" class="filter-select" onchange="this.form.submit()">
-                    <option value="">Раса</option>
-                    {% for s in species %}
-                        <option value="{{ s.0 }}" {% if selected_specie == s.0 %}selected{% endif %}>
-                            {{ s.1 }}
-                        </option>
-                    {% endfor %}
-                </select>
-                <a href="{% url 'characters_page' %}" class="search-btn">🗑</a>
-
-            </div>
-        </form>
+            <a href="{% url 'characters_page' %}" class="char-clear">✕</a>
+        </div>
+    </form>
 
         <!-- Сетка персонажей -->
         <div class="characters-grid">

@@ -46,45 +46,6 @@ const video = document.getElementById("video");
 const nextBtn = document.getElementById("nextEpisode");
 const playerWrapper = document.getElementById("playerWrapper");
 
-if (video && nextBtn) {
-    let shouldShow = false;
-
-    video.addEventListener("timeupdate", () => {
-        if (!video.duration) return;
-
-        const remaining = video.duration - video.currentTime;
-
-        if (remaining <= 93) {
-            shouldShow = true;
-            nextBtn.style.display = "block";
-        } else {
-            shouldShow = false;
-            nextBtn.style.display = "none";
-        }
-    });
-
-    nextBtn.addEventListener("click", () => {
-        window.location.href = "{% if next_episode %}{% url 'episode_detail' next_episode.id %}{% endif %}";
-    });
-
-    function handleFullscreen() {
-        const isFullscreen = document.fullscreenElement;
-
-        if (isFullscreen) {
-            nextBtn.style.position = "absolute";
-            nextBtn.style.bottom = "70px";
-            nextBtn.style.right = "20px";
-            nextBtn.style.zIndex = "9999";
-        } else {
-            nextBtn.style.bottom = "68px";
-            nextBtn.style.right = "15px";
-        }
-
-        nextBtn.style.display = shouldShow ? "block" : "none";
-    }
-
-    document.addEventListener("fullscreenchange", handleFullscreen);
-}
 // ===== ПРОГРЕСС =====
 const animeId = {{ episode.season.anime.id }};
 const seasonId = {{ episode.season.id }};
