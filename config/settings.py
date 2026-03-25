@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-f2#bjm^x_2ysp+c@kj28)n&ag++0hm=v@yxa9b+y!vqe3125v_
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["Vukay67.pythonanywhere.com"]
 
 AUTH_USER_MODEL = "core.CustemUser"
 LOGIN_URL = "login_page"
