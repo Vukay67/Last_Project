@@ -57,7 +57,7 @@ def main_page(request):
     top_ani = Anime.objects.filter(our_rating__gte=4.5)
     event = Anime.event
     year = timezone.now().year
-    event_ani = Anime.objects.filter(ss_year=event)
+    event_ani = Anime.objects.filter(ss_year=event, year=year)
 
     if request.user.is_authenticated:
         history = WatchHistory.objects.filter(user=request.user).order_by('-id').select_related('anime', 'episode')[:10]
@@ -76,14 +76,10 @@ def main_page(request):
             planned_anime = choices(planned_anime_qs)
 
     ran_ani = choices(top_ani) if top_ani else None
-    ran_ani1 = choices(top_ani) if top_ani else None
-    ran_ani2 = choices(top_ani) if top_ani else None
 
     context = {
         "anime": anime,
         "ran_ani": ran_ani,
-        "ran_ani1": ran_ani1,
-        "ran_ani2": ran_ani2,
         "nex_ani": planned_anime,
         "event": event,
         "event_ani":event_ani,
