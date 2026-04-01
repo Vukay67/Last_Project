@@ -4,6 +4,19 @@ html,body{height:100%}
 body{min-height:100vh;background:#0a0a12;color:#fff;display:flex;flex-direction:column}
 a{text-decoration:none}
 
+body.dark-mode {
+    background-color: #0d0d0d;
+    color: #e0e0e0;
+}
+
+body.dark-mode .header {
+    background: linear-gradient(90deg, #1a1a2e, #16213e);
+}
+
+body.dark-mode .footer {
+    background-color: #1a1a2e;
+}
+
 /* ===== VARIABLES ===== */
 :root{
   --pink:#ff4d6d;
@@ -404,3 +417,4 @@ a.btn-primary,a.btn-secondary{text-decoration:none}
 .char-select option { background: var(--card); }
 .char-clear {width: 34px;height: 34px;display: flex;align-items: center;justify-content: center;background: var(--card);border: 1px solid var(--border);border-radius: 8px;color: var(--muted);font-size: 13px;transition: border-color .2s, color .2s;flex-shrink: 0;}
 .char-clear:hover { border-color: var(--pink); color: var(--pink); }
+

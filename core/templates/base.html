@@ -48,7 +48,14 @@
                     {% endif %}
                 </li>
                 {% if request.user.is_authenticated %}
-                <li><div><label class="switch"><input type="checkbox" id="toggle"><span class="slider"></span></label></div></li>
+                <li>
+                    <div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle" onchange="handleToggle(this)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </li>
                 {% endif %}
             </ul>
         </nav>
@@ -95,18 +102,30 @@
         </a>
     </nav>
 
+<script>
+    const toggle = document.getElementById('toggle');
+
+    if (toggle) {
+        const savedState = localStorage.getItem('toggleState') === 'true';
+        toggle.checked = savedState;
+
+        if (savedState) {
+            document.body.classList.add('dark-mode');
+        }
+    }
+
+    function handleToggle(checkbox) {
+        localStorage.setItem('toggleState', checkbox.checked);
+
+        if (checkbox.checked) {
+            document.body.classList.add('dark-mode');
+            window.location.href = "{% url 'hentai_page' %}";
+        } else {
+            document.body.classList.remove('dark-mode');
+            window.location.href = "{% url 'main_page' %}";
+        }
+    }
+</script>
+
 </body>
 </html>
-
-<script>
-    const toggle = document.getElementById("toggle");
-    const status = document.getElementById("status");
-
-    toggle.addEventListener("change", () => {
-  if (toggle.checked) {
-    window.location.href = "hentai/";
-  } else {
-    window.location.href = "";
-  }
-});
-</script>
