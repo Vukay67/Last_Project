@@ -410,3 +410,6 @@ def comment_action(request, slug):
         comment.save()
 
     return redirect(reverse("anime_detail_page", kwargs={"slug": slug}) + "#commentsList")
+
+def hentai(request):
+    return render(request, "hentai.html", {})

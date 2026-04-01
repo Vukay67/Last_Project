@@ -47,6 +47,9 @@
                     </a>
                     {% endif %}
                 </li>
+                {% if request.user.is_authenticated %}
+                <li><div><label class="switch"><input type="checkbox" id="toggle"><span class="slider"></span></label></div></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
@@ -94,3 +97,16 @@
 
 </body>
 </html>
+
+<script>
+    const toggle = document.getElementById("toggle");
+    const status = document.getElementById("status");
+
+    toggle.addEventListener("change", () => {
+  if (toggle.checked) {
+    window.location.href = "hentai/";
+  } else {
+    window.location.href = "";
+  }
+});
+</script>
