@@ -22,5 +22,6 @@ urlpatterns = [
     path('save-progress/', views.save_progress, name='save_progress'),
     path('logout/', logout_view, name="logout"),
     path('comment/<str:slug>/', comment_action, name="comment_action"),
-    path('hentai/', hentai, name="hentai_page")
+    path('h/', hentai, name="hentai_page"),
+    path('hentai/', all_hentai, name="all_hentai_page")
 ]

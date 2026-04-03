@@ -10,7 +10,7 @@
 </head>
 <body>
     <header class="header">
-        <a href="{% url 'main_page' %}" class="logo">
+        <a id="main-link" href="{% url 'main_page' %}" class="logo">
             <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="20" cy="20" r="19" stroke="white" stroke-width="1.5"/>
                 <ellipse cx="20" cy="21" rx="11" ry="12" fill="white" fill-opacity="0.12"/>
@@ -30,8 +30,12 @@
 
         <nav class="nav">
             <ul>
-                <li><a href="{% url 'all_anime_page' %}">Каталог</a></li>
-                <li><a href="{% url 'characters_page' %}">Персонажи</a></li>
+                <li id="catalog-link">
+                    <a href="{% url 'all_anime_page' %}" id="catalog-anchor">Каталог</a>
+                </li>
+                <li id="characters-link">
+                    <a href="{% url 'characters_page' %}">Персонажи</a>
+                </li>
                 <li>
                     {% if request.user.is_authenticated %}
                     <a href="{% url 'profil_page' request.user.pk %}" class="profile-btn">
@@ -103,28 +107,64 @@
     </nav>
 
 <script>
-    const toggle = document.getElementById('toggle');
+const toggle = document.getElementById('toggle');
+const catalogLink = document.getElementById('catalog-anchor');
+const charactersLink = document.getElementById('characters-link');
+const mainLink = document.getElementById('main-link');
 
-    if (toggle) {
-        const savedState = localStorage.getItem('toggleState') === 'true';
-        toggle.checked = savedState;
+function applyCinemaMode(enabled) {
+    if (enabled) {
+        document.body.classList.add('dark-mode');
 
-        if (savedState) {
-            document.body.classList.add('dark-mode');
+        // меняем ссылку каталога
+        if (catalogLink) {
+            catalogLink.href = "{% url 'all_hentai_page' %}";
+        }
+
+        // скрываем персонажи
+        if (charactersLink) {
+            charactersLink.style.display = "none";
+        }
+        
+        if (mainLink) {
+            mainLink.href = "{% url 'hentai_page' %}"
+        }
+
+    } else {
+        document.body.classList.remove('dark-mode');
+
+        // возвращаем ссылку каталога
+        if (catalogLink) {
+            catalogLink.href = "{% url 'all_anime_page' %}";
+        }
+
+        // показываем персонажи
+        if (charactersLink) {
+            charactersLink.style.display = "";
         }
     }
+}
 
-    function handleToggle(checkbox) {
-        localStorage.setItem('toggleState', checkbox.checked);
+// загрузка состояния
+if (toggle) {
+    const savedState = localStorage.getItem('toggleState') === 'true';
+    toggle.checked = savedState;
+    applyCinemaMode(savedState);
+}
 
-        if (checkbox.checked) {
-            document.body.classList.add('dark-mode');
-            window.location.href = "{% url 'hentai_page' %}";
-        } else {
-            document.body.classList.remove('dark-mode');
-            window.location.href = "{% url 'main_page' %}";
-        }
+// переключение
+function handleToggle(checkbox) {
+    localStorage.setItem('toggleState', checkbox.checked);
+
+    applyCinemaMode(checkbox.checked);
+
+    // редирект
+    if (checkbox.checked) {
+        window.location.href = "{% url 'hentai_page' %}";
+    } else {
+        window.location.href = "{% url 'main_page' %}";
     }
+}
 </script>
 
 </body>

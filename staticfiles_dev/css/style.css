@@ -34,12 +34,12 @@ body.dark-mode .footer {
 .logo{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:700;color:#fff;letter-spacing:-.02em}
 .logo:visited{color:#fff}
 .logo-icon{width:36px;height:36px;flex-shrink:0}
-.nav ul{list-style:none;display:flex;gap:28px;align-items:center;}
+.nav ul{list-style:none;display:flex;gap:20px;align-items:center;}
 .nav a{color:#fff;font-size:14px;font-weight:500;transition:color .2s;letter-spacing:.01em;}
 .nav a:hover{color:#ffd60a}
 
 /* ===== SWITCH ===== */
-.switch {position: relative;display: inline-block;width: 60px;height: 34px;transform: scale(0.7);left: 35px;}
+.switch {position: relative;display: inline-block;width: 60px;height: 34px;transform: scale(0.7)}
 .switch input {opacity: 0;width: 0;height: 0;}
 .slider {position: absolute;cursor: pointer;background-color: #ccc;border-radius: 34px;top: 0;left: 0;right: 0;bottom: 0;transition: 0.3s;}
 .slider:before {position: absolute;content: "";height: 26px;width: 26px;left: 4px;bottom: 4px;background-color: white;border-radius: 50%;transition: 0.3s;}

@@ -413,3 +413,6 @@ def comment_action(request, slug):
 
 def hentai(request):
     return render(request, "hentai.html", {})
+
+def all_hentai(request):
+    return render(request, "all_hentai.html", {})
