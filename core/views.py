@@ -12,11 +12,11 @@ from django.db.models import OuterRef, Subquery
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 import json
+from django.db.models import Q
 from random import choices
 import os
 from django.http import StreamingHttpResponse
 from django.conf import settings
-from django.utils import timezone
 
 def serve_video(request, path):
     full_path = os.path.join(settings.MEDIA_ROOT, path)
@@ -52,12 +52,11 @@ def serve_video(request, path):
     return response
 
 def main_page(request):
-    user = request.user
     anime = Anime.objects.prefetch_related('genres').all()
     top_ani = Anime.objects.filter(our_rating__gte=4.5)
-    event = Anime.event
-    year = timezone.now().year
-    event_ani = Anime.objects.filter(ss_year=event, year=year)
+    event = Episode.event
+    years = Episode.years
+    event_ani = Episode.objects.filter(ss_year=event, year=years).order_by("-id")
 
     if request.user.is_authenticated:
         history = WatchHistory.objects.filter(user=request.user).order_by('-id').select_related('anime', 'episode')[:10]
@@ -82,9 +81,9 @@ def main_page(request):
         "ran_ani": ran_ani,
         "nex_ani": planned_anime,
         "event": event,
-        "event_ani":event_ani,
-        "year": year,
-        "history": history
+        "event_ani": event_ani,
+        "year": years,
+        "history": history,
     }
     return render(request, "index.html", context)
 
@@ -124,7 +123,6 @@ def register_page(request):
     
 def logout_view(request):
     logout(request)
-    messages.info(request, '👋 Вы вышли из аккаунта.')
     return redirect('main_page')
 
 def anime_detail_page(request, slug):
@@ -158,12 +156,13 @@ def all_anime_page(request):
     search_query = request.GET.get('search', '')
     genre_id = request.GET.get('genres', '')
     sort_option = request.GET.get('sort', '')
-    delete = request.GET.get('delete')
+
+    print(search_query)
 
     animes = Anime.objects.prefetch_related('genres', 'seasons__episodes')
 
     if search_query:
-        animes = animes.filter(name__icontains=search_query)
+        animes = animes.filter(Q(name__icontains=search_query) | Q(name_en__icontains=search_query))
     if genre_id:
         animes = animes.filter(genres__id=genre_id)
     if sort_option == 'name_asc':

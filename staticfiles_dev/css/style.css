@@ -3,6 +3,8 @@
 html,body{height:100%}
 body{min-height:100vh;background:#0a0a12;color:#fff;display:flex;flex-direction:column}
 a{text-decoration:none}
+a.contact-card{display:block;color:inherit;}
+a.contact-card h3{color:#fff;}
 
 body.dark-mode {
     background-color: #0d0d0d;

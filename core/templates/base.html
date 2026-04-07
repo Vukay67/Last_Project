@@ -52,6 +52,7 @@
                     {% endif %}
                 </li>
                 {% if request.user.is_authenticated %}
+                {% if request.user.username == "Vukay67" %}
                 <li>
                     <div>
                         <label class="switch">
@@ -60,6 +61,7 @@
                         </label>
                     </div>
                 </li>
+                {% endif %}
                 {% endif %}
             </ul>
         </nav>

@@ -51,7 +51,7 @@
         </section>
         {% endif %}
 
-                <!-- ПОПУЛЯРНОЕ -->
+        <!-- ПОПУЛЯРНОЕ -->
         <section class="catalog-section" id="wer">
             <div class="catalog-header" style="margin-top: 60px;">
                 <h2 class="catalog-title">🔥 Популярное</h2>
@@ -91,19 +91,19 @@
             </div>
             <div class="anime-grid">
                 {% for a in event_ani %}
-                <a href="{% url 'anime_detail_page' a.slug %}" class="anime-grid-card">
+                <a href="{% url 'episode_detail' a.id %}" class="anime-grid-card">
                     <div class="anime-grid-thumb">
-                        {% if a.image %}
-                            <img src="{{ a.image.url }}" alt="{{ a.name }}" />
+                        {% if a.season.anime.image %}
+                            <img src="{{ a.season.anime.image.url }}" alt="{{ a.season.anime.name }}" />
                         {% else %}
-                            <div class="anime-grid-no-img">{{ a.name|first }}</div>
+                            <div class="anime-grid-no-img">{{ a.season.anime.name|first }}</div>
                         {% endif %}
-                        <span class="anime-grid-year">{{ a.release_year|date:"Y" }}</span>
+                        <span class="anime-grid-year">{{ a.season.anime.release_year|date:"Y" }}</span>
                     </div>
                     <div class="anime-grid-info">
-                        <span class="anime-grid-title">{{ a.name }}</span>
+                        <span class="anime-grid-title">{{ a.season.anime.name }} {{ a.episode_number }} серия</span>
                         <span class="anime-grid-genre">
-                            {% for genre in a.genres.all %}
+                            {% for genre in a.season.anime.genres.all %}
                                 {{ genre.name }}{% if not forloop.last %} · {% endif %}
                             {% empty %}
                                 Без жанра

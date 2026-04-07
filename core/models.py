@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.utils import timezone
 from django.db.models.signals import post_save, post_delete
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
@@ -7,7 +8,6 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.db.models.functions import Cast
 from django.db.models import FloatField, Avg
-from django.utils import timezone
 
 # ================== EditeProfil ==================
 class CustemUser(AbstractUser):
@@ -31,26 +31,14 @@ class Genre(models.Model):
 
 # ================== Anime ==================
 class Anime(models.Model):
-    event = ""
-    month = timezone.now().month
-    if month in (12, 1, 2):
-        event = "winter"
-    elif month in (3, 4, 5):
-        event = "Весна"
-    elif month in (6, 7, 8):
-        event = "summer"
-    elif month in (9, 10, 11):
-        event = "autumn"
-
-    name = models.CharField(max_length=200, verbose_name="Название")
+    name = models.CharField(verbose_name="Название")
+    name_en = models.CharField(verbose_name="Название на английском")
     slug = models.SlugField(unique=True, blank=True, verbose_name="Slug")
     image = models.ImageField(upload_to="anime_poster", verbose_name="Постер")
     description = models.TextField(verbose_name="Описание")
     release_year = models.DateField(verbose_name="Дата выхода")
     shikimori_rating = models.DecimalField(max_digits=3, decimal_places=1, verbose_name="Рейтинг Shikimori")
     our_rating = models.FloatField(default=0, verbose_name="Наш рейтинг")
-    ss_year = models.CharField(default=event, verbose_name="Сезон")
-    year = models.CharField(default=timezone.now().year, verbose_name="Год")
 
     genres = models.ManyToManyField("Genre", related_name="animes", verbose_name="Жанры")
 
@@ -128,11 +116,25 @@ class SeasonAnime(models.Model):
 
 # ================== Episode ==================
 class Episode(models.Model):
+    years = timezone.now().year
+    event = ""
+    month = timezone.now().month
+    if month in (12, 1, 2):
+        event = "Зима"
+    elif month in (3, 4, 5):
+        event = "Весна"
+    elif month in (6, 7, 8):
+        event = "Лето"
+    elif month in (9, 10, 11):
+        event = "Осень"
+
     season = models.ForeignKey(SeasonAnime, on_delete=models.CASCADE, related_name="episodes", verbose_name="Сезон")
     title = models.CharField(max_length=200, verbose_name="Название")
     episode_number = models.PositiveIntegerField(verbose_name="Номер эпизода")
     video = models.FileField(upload_to="episodes/", verbose_name="Видео")
     poster = models.ImageField(upload_to="episode_posters/", verbose_name="Постер")
+    ss_year = models.CharField(default=event, verbose_name="Сезон")
+    year = models.CharField(default=timezone.now().year, verbose_name="Год")
 
     class Meta:
         verbose_name = "Эпизод"
@@ -201,13 +203,6 @@ def update_anime_rating(sender, instance, **kwargs):
         avg=Avg(Cast('point', FloatField()))
     )['avg'] or 0
     Anime.objects.filter(pk=anime.pk).update(our_rating=round(avg, 1))
-
-class BackgroundPicture(models.Model):
-    image = models.ImageField(upload_to="background/", verbose_name="Изображение")
-
-    class Meta:
-        verbose_name = "Фоновое изображение"
-        verbose_name_plural = "Фоновые изображения"
 
 # ================== WatchHistory ==================
 class WatchHistory(models.Model):
