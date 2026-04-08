@@ -13,7 +13,7 @@
                 <h1 class="hero-title">Добро пожаловать<br>в мир <span class="hero-highlight">аниме!</span></h1>
                 <p class="hero-sub">Смотри лучшие аниме онлайн, веди список и следи за новинками.</p>
                 <div class="hero-actions">
-                    <a href="#wer" class="btn-primary">Смотреть сейчас</a>
+                    <a href="#ani" class="btn-primary">Смотреть сейчас</a>
                     <a href="{% url 'all_anime_page' %}" class="btn-secondary">Каталог</a>
                 </div>
             </div>
@@ -52,7 +52,7 @@
         {% endif %}
 
         <!-- ПОПУЛЯРНОЕ -->
-        <section class="catalog-section" id="wer">
+        <section class="catalog-section" id="ani">
             <div class="catalog-header" style="margin-top: 60px;">
                 <h2 class="catalog-title">🔥 Популярное</h2>
             </div>
@@ -91,7 +91,7 @@
             </div>
             <div class="anime-grid">
                 {% for a in event_ani %}
-                <a href="{% url 'episode_detail' a.id %}" class="anime-grid-card">
+                <a href="{% url 'episode_detail' a.season.anime.slug  a.episode_number %}" class="anime-grid-card">
                     <div class="anime-grid-thumb">
                         {% if a.season.anime.image %}
                             <img src="{{ a.season.anime.image.url }}" alt="{{ a.season.anime.name }}" />

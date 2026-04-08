@@ -130,7 +130,7 @@
                     <div class="episode-row">
                         <span class="episode-num">{{ episode.episode_number }}</span>
                         <span class="episode-title">{{ episode.title }}</span>
-                        <a href="{% url 'episode_detail' episode.id %}" class="episode-play">▶</a>
+                        <a href="{% url 'episode_detail' episode.season.anime.slug episode.episode_number %}" class="episode-play">▶</a>
                     </div>
                     {% empty %}
                     <p class="season-empty">Эпизоды не добавлены</p>

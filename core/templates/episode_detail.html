@@ -27,12 +27,12 @@
             </div>
             <div class="episode-nav">
                 {% if prev_episode %}
-                <a href="{% url 'episode_detail' prev_episode.id %}" class="nav-btn">◀ {{ prev_episode.episode_number }} серия</a>
+                <a href="{% url 'episode_detail' prev_episode.season.anime.slug  prev_episode.episode_number %}" class="nav-btn">◀ {{ prev_episode.episode_number }} серия</a>
                 {% else %}
                 <a href="{% url 'anime_detail_page' episode.season.anime.slug %}#wached" class="nav-btn">Все серии</a>
                 {% endif %}
                 {% if next_episode %}
-                <a href="{% url 'episode_detail' next_episode.id %}" class="nav-btn">{{ next_episode.episode_number }} серия ▶</a>
+                <a href="{% url 'episode_detail' next_episode.season.anime.slug next_episode.episode_number %}" class="nav-btn">{{ next_episode.episode_number }} серия ▶</a>
                 {% else %}
                 <a href="{% url 'anime_detail_page' episode.season.anime.slug %}#wached" class="nav-btn">Все серии</a>
                 {% endif %}

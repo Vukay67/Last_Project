@@ -218,8 +218,8 @@ def characters_page(request):
     }
     return render(request, 'characters.html', context)
 
-def episode_detail_page(request, episode_id):
-    episode = get_object_or_404(Episode.objects.select_related('season__anime'), id=episode_id)
+def episode_detail_page(request, slug, episode_number):
+    episode = get_object_or_404(Episode.objects.select_related('season__anime'), season__anime__slug=slug, episode_number=episode_number)
     characters = Character.objects.filter(anime=episode.season.anime, gg="Главный герой")
 
     prev_episode = Episode.objects.filter(
