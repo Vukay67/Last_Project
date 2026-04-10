@@ -381,7 +381,7 @@ def redact_page(request):
         form = CustemUserForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect("profil_page", pk=request.user.pk)
+            return redirect("profil_page", username=request.user.username)
     else:
         form = CustemUserForm(instance=request.user)
 
