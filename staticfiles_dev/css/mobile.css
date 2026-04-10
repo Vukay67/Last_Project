@@ -145,17 +145,45 @@
   .detail-actions .watchlist-dropdown-wrap ~ .rating-wrap {
     /* оба элемента идут подряд — браузер сам разместит */
   }
-  .detail-actions {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  .detail-actions > a.btn-primary {
-    flex: 0 0 100%;
-  }
-  .detail-actions .watchlist-dropdown-wrap,
-  .detail-actions .rating-wrap {
-    flex: 1 1 auto;
-  }
+/* Detail actions — кнопка смотреть на всю ширину, закладка и оценка рядом */
+.detail-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+}
+.detail-actions > a.btn-primary {
+  flex: 0 0 100%;
+  width: 100%;
+  text-align: center;
+  padding: 10px 14px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+.detail-actions > .watchlist-dropdown-wrap,
+.detail-actions > .rating-wrap {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+}
+.detail-actions > .watchlist-dropdown-wrap > button,
+.detail-actions > .rating-wrap > button {
+  width: 100%;
+  text-align: center;
+  padding: 8px 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Дропдауны открываются вниз */
+.watchlist-dropdown,
+.rating-dropdown {
+  bottom: auto;
+  top: calc(100% + 8px);
+}
   .detail-actions .watchlist-dropdown-wrap .btn-secondary,
   .detail-actions .rating-wrap .btn-secondary {
     width: 100%;
@@ -273,19 +301,50 @@
   .watchlist-tabs::-webkit-scrollbar { display: none; }
   .watchlist-tab { white-space: nowrap; flex-shrink: 0; padding: 7px 14px; font-size: 12px; }
 
-  /* Anime list в профиле — горизонтальный скролл */
-  .anime-list {
-    flex-direction: row;
-    overflow-x: auto;
-    gap: 10px;
-    padding-bottom: 8px;
-    scrollbar-width: none;
-  }
-  .anime-list::-webkit-scrollbar { display: none; }
-  .anime-card { flex-direction: column; align-items: flex-start; min-width: 120px; padding: 8px; gap: 8px; }
-  .anime-thumb { width: 100%; height: 80px; border-radius: 6px; }
-  .anime-title { font-size: 12px; }
-  .anime-genre { font-size: 10px; }
+/* Anime list в профиле — нормальный вертикальный список */
+.anime-list {
+  flex-direction: column;
+  overflow-x: unset;
+  gap: 10px;
+  padding-bottom: 0;
+}
+.anime-list::-webkit-scrollbar { display: none; }
+
+.anime-card {
+  flex-direction: row;
+  align-items: center;
+  min-width: unset;
+  width: 100%;
+  padding: 10px 12px;
+  gap: 12px;
+}
+
+.anime-thumb {
+  width: 54px !important;
+  height: 76px !important;
+  flex-shrink: 0;
+  border-radius: 6px;
+}
+
+.anime-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.anime-title {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.anime-genre { font-size: 11px; }
+
+.anime-rating,
+.anime-progress {
+  font-size: 13px;
+  flex-shrink: 0;
+}
 
   /* --- Catalog page --- */
   .catalog-page { padding: 16px 16px 80px; }

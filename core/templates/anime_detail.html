@@ -198,8 +198,7 @@
         <div class="c-body">
             <div class="c-top">
                 <span style="font-size: 12px;color: #827e7e;">{{ comment.created_at }}</span>
-                <a href="{% url 'profil_page' comment.author.pk %}" class="c-name"><strong>{{ comment.author }}</strong></a>
-                
+                <a href="{% url 'profil_page' comment.author.username %}" class="c-name"><strong>{{ comment.author }}</strong></a>
             </div>
             <p class="c-text">
                 {% if comment.parent %}

@@ -308,8 +308,8 @@ def add_reating(request, slug, point):
     return redirect("anime_detail_page", slug=slug)
 
 @login_required
-def profil_page(request, pk):
-    user = get_object_or_404(CustemUser, id=pk)
+def profil_page(request, username):
+    user = get_object_or_404(CustemUser, username=username)
 
     rating_sub = Reating.objects.filter(
         user=user, anime=OuterRef('anime')
